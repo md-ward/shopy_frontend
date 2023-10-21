@@ -1,17 +1,8 @@
-import Layout from './global/view/pages_layout'
-import HomePage from './home/view/home_pages'
-
+import  AppRouter  from './router'
 function App() {
 
   return (
-    <>
-      <Layout children={<HomePage />} />
-
-
-
-
-
-    </>
+    <AppRouter />
   )
 }
 

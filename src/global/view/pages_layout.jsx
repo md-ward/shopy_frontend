@@ -1,4 +1,8 @@
-import Navbar from '../widgets/nav_bar'
+import Navbar from '../widgets/nav_bar';
+import Footer from '../widgets/footer';
+
+
+// eslint-disable-next-line react/prop-types
 const Layout = ({ children }) => {
 
     return (
@@ -7,14 +11,13 @@ const Layout = ({ children }) => {
         <>
 
             <Navbar />
-            <div className="flex flex-row w-full justify-evenly p-2 font-serif text-white max-w-6xl  "
-            >
 
+            <div className='lg:min-h-screen' >
                 {children}
-
-
             </div>
 
+
+            <Footer />
 
 
         </>

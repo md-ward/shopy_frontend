@@ -1,23 +1,31 @@
 import gsap from 'gsap';
 import { useLayoutEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import useTranslationStore from '../state/useTranslationStore';
 
 const Navbar = () => {
-  const header_items = ['Home', 'Shop', 'About', 'Contact Us'];
-
+  const headerItems = [
+    { title: 'home', to: '/' },
+    { title: 'shop', to: '/shop' },
+    { title: 'about', to: '/about' },
+    { title: 'contact', to: '/contact' },
+  ];
 
   const [expand, setExpand] = useState(true);
-  const [toggleSearch, settoggleSearch] = useState(false);
-
+  const [toggleSearch, setToggleSearch] = useState(false);
 
   const navLinksRef = useRef();
   const iconButtonsRef = useRef();
   const searchRef = useRef();
 
-  const icon_buttons = [
-    { src: 'assets/cart.svg', alt: 'shopping cart', fun: () => { } },
-    { src: 'assets/bell.svg', alt: 'notification bell', fun: () => { } },
-    { src: 'assets/search.svg', alt: 'search icon', fun: searchAnimation },
+  const iconButtons = [
+    { src: '/assets/cart.svg', alt: 'shopping cart', fun: () => {} },
+    { src: '/assets/bell.svg', alt: 'notification bell', fun: () => {} },
+    { src: '/assets/search.svg', alt: 'search icon', fun: searchAnimation },
   ];
+
+  const { t, setCurrentLanguage } = useTranslationStore();
+
   function playAnimation() {
     if (expand) {
       gsap
@@ -44,13 +52,16 @@ const Navbar = () => {
     const searchInput = searchRef.current;
 
     if (!toggleSearch) {
-      settoggleSearch(!toggleSearch);
+      setToggleSearch(!toggleSearch);
 
       gsap.fromTo(
         searchInput,
         { width: 0, opacity: 0 },
         {
-          width: '200px', opacity: 1, duration: 0.3, ease: 'power3',
+          width: '200px',
+          opacity: 1,
+          duration: 0.3,
+          ease: 'power3',
         }
       );
     } else {
@@ -58,15 +69,17 @@ const Navbar = () => {
         searchInput,
         { width: '200px', opacity: 1 },
         {
-          width: 0, opacity: 0, duration: 0.3, ease: 'power3', onComplete: () => {
-            settoggleSearch(!toggleSearch);
-          }
+          width: 0,
+          opacity: 0,
+          duration: 0.3,
+          ease: 'power3',
+          onComplete: () => {
+            setToggleSearch(!toggleSearch);
+          },
         }
       );
     }
   }
-
-
 
   useLayoutEffect(() => {
     const handleResize = () => {
@@ -75,10 +88,9 @@ const Navbar = () => {
         iconButtonsRef.current.style.opacity = 1;
         navLinksRef.current.classList.remove('hidden');
         iconButtonsRef.current.classList.add('max-sm:hidden');
-        setExpand(true)
+        setExpand(true);
       }
     };
-
 
     window.addEventListener('resize', handleResize);
 
@@ -87,32 +99,34 @@ const Navbar = () => {
     };
   }, []);
 
+  const handleLanguageChange = (language) => {
+    setCurrentLanguage(language);
+  };
+
+  const changeLanguage = useTranslationStore((state) => state.currentLanguage);
+
   return (
-    <nav className="grid grid-cols-12 custome_grad py-2 ">
+    <nav className="grid grid-cols-12 custome_grad py-2">
       {/* Logo */}
       <div className="hidden sm:flex items-center pl-8 font-[AttackGraf] cursor-pointer sm:col-span-3">
         <h1 className="text-3xl font-bold text-white">Shopy</h1>
       </div>
-
-
-
-
 
       {/* Navigation Items */}
       <ul
         ref={navLinksRef}
         className="flex flex-row items-center justify-evenly w-full font-[Pacifico] ml-auto mr-8 space-x-6 col-span-11 sm:col-span-6"
       >
-        {header_items.map((item, index) => (
+        {headerItems.map((item, index) => (
           <li
             key={index}
-            className="text-white hover:text-gray-300 cursor-pointer transition-colors duration-200"
+            className="group text-white hover:text-gray-200 cursor-pointer transition-colors duration-200 relative"
           >
-            {item}
+            <Link to={item.to}>{t(item.title)}</Link>
+            <span className="absolute w-0 group-hover:w-full h-0.5 bg-white -bottom-1 left-0 opacity-0 group-hover:opacity-100 duration-300 ease-in-outtransition-all"></span>
           </li>
         ))}
       </ul>
-
 
       {/* Icon Buttons */}
       <section
@@ -120,29 +134,41 @@ const Navbar = () => {
         className="max-sm:hidden flex flex-row justify-evenly items-center col-span-11 sm:col-span-3"
       >
         {/* search bar  */}
-        <input type="search" ref={searchRef} name="search" className={`rounded-lg  ${toggleSearch ? 'block' : 'hidden'}`} />
+        <input
+          type="search"
+          ref={searchRef}
+          name="search"
+          className={`rounded-lg ${toggleSearch ? 'block' : 'hidden'}`}
+        />
 
         {/* icon buttons */}
-        {icon_buttons.map((icon, index) => (
+        {iconButtons.map((icon, index) => (
           <img
-
-            onClick={ icon.fun}
+            onClick={icon.fun}
             key={index}
             src={icon.src}
             alt={icon.alt}
-            className="h-6 sm:h-6   cursor-pointer"
+            className="h-6 sm:h-6 cursor-pointer hover:scale-110 transition-all duration-300 ease-in-out"
           />
         ))}
+        <select
+          className="font-sans text-white bg-transparent"
+          onChange={(e) => handleLanguageChange(e.target.value)}
+          value={changeLanguage}
+        >
+          <option value="en">{t('en')}</option>
+          <option value="ar">{t('ar')}</option>
+        </select>
       </section>
-
 
       {/* Arrow Icon */}
       <div
-        className={`flex sm:hidden justify-center items-center col-span-1  ${expand ? 'rotate-180' : 'rotate-0'
-          } duration-150 ease-in-out transition-all`}
+        className={`flex sm:hidden justify-center items-center col-span-1 ${
+          expand ? 'rotate-180' : 'rotate-0'
+        } duration-150 ease-in-out transition-all`}
         onClick={() => {
           setExpand(!expand);
-          playAnimation()
+          playAnimation();
         }}
       >
         <svg
@@ -155,7 +181,6 @@ const Navbar = () => {
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
         </svg>
       </div>
-
     </nav>
   );
 };
