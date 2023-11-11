@@ -9,6 +9,10 @@
 
 
 
+html {
+    scroll-behavior: smooth;
+}
+
 .custome_grad {
     background: #4776E6;
     /* fallback for old browsers */
@@ -19,3 +23,23 @@
 
 
 }
+
+.new_check {
+
+    background: indigo !important;
+
+    opacity: '80%';
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #c4c4c4;
+    border-radius: 8px;
+  }
+  
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: #f2f2f2;
+  }

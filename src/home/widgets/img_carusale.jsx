@@ -79,7 +79,7 @@ const ImgCarousel = () => {
 
                 {/* right arrow */}
                 <button className="absolute right-0" onClick={() => handleChangeImg('right')}>
-                    <img src="assets/arrow-up.svg" alt="arrow right" className="rotate-90 h-6 sm:h-12" />
+                    <img src="assets/arrow-up.svg" alt="arrow right" className="rotate-90 h-6 sm:h-12 " />
                 </button>
 
                 <CarouselDots images={images} activeIndex={changeImg} handleClick={handleDotClick} />

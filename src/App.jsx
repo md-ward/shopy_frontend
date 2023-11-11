@@ -1,8 +1,16 @@
-import  AppRouter  from './router'
-function App() {
+import AppRouter from './router'
+import useRegistering from './user_registering/store/useRegisteringStore'
+import RegisteringPage from './user_registering/view/registeringPage';
 
+function App() {
+  const { isDialogOpen, isLogedIn } = useRegistering();
   return (
-    <AppRouter />
+    <>
+      {(isDialogOpen && !isLogedIn) && <RegisteringPage />}
+
+      <AppRouter />
+
+    </>
   )
 }
 

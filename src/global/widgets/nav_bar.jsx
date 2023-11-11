@@ -1,9 +1,25 @@
 import gsap from 'gsap';
 import { useLayoutEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useTranslationStore from '../state/useTranslationStore';
+import useRegistering from '../../user_registering/store/useRegisteringStore';
 
 const Navbar = () => {
+  //? global State 
+  const { t, setCurrentLanguage } = useTranslationStore();
+  const { toggleDialog, isLogedIn } = useRegistering();
+
+  // ! local State
+  const [expand, setExpand] = useState(true);
+  const [toggleSearch, setToggleSearch] = useState(false);
+  // ! Element Refrence:
+
+  const navLinksRef = useRef();
+  const iconButtonsRef = useRef();
+  const searchRef = useRef();
+  const navigate = useNavigate();
+
+  //? nav items
   const headerItems = [
     { title: 'home', to: '/' },
     { title: 'shop', to: '/shop' },
@@ -11,21 +27,25 @@ const Navbar = () => {
     { title: 'contact', to: '/contact' },
   ];
 
-  const [expand, setExpand] = useState(true);
-  const [toggleSearch, setToggleSearch] = useState(false);
+  function handleUserIconButton() {
 
-  const navLinksRef = useRef();
-  const iconButtonsRef = useRef();
-  const searchRef = useRef();
+    if (isLogedIn) {
+      navigate('/user_logs')
 
+    }
+    else {
+      toggleDialog()
+    }
+
+  }
+  // * nav icon buttons
   const iconButtons = [
-    { src: '/assets/cart.svg', alt: 'shopping cart', fun: () => {} },
-    { src: '/assets/bell.svg', alt: 'notification bell', fun: () => {} },
-    { src: '/assets/search.svg', alt: 'search icon', fun: searchAnimation },
+    { src: '/assets/cart.svg', alt: 'shopping cart', fun: () => { } },
+    { src: '/assets/user.svg', alt: 'user ', fun: handleUserIconButton },
+    { src: '/assets/search.svg', alt: 'search ', fun: searchAnimation },
   ];
 
-  const { t, setCurrentLanguage } = useTranslationStore();
-
+  // ! mobeile ui nav  animation ...
   function playAnimation() {
     if (expand) {
       gsap
@@ -48,6 +68,7 @@ const Navbar = () => {
     }
   }
 
+  //! serach bar toggle with animation 
   function searchAnimation() {
     const searchInput = searchRef.current;
 
@@ -108,7 +129,10 @@ const Navbar = () => {
   return (
     <nav className="grid grid-cols-12 custome_grad py-2">
       {/* Logo */}
-      <div className="hidden sm:flex items-center pl-8 font-[AttackGraf] cursor-pointer sm:col-span-3">
+      <div
+
+        onClick={() => { navigate('/', { replace: true }) }}
+        className=" select-none hidden sm:flex items-center pl-8 font-[AttackGraf] cursor-pointer sm:col-span-3">
         <h1 className="text-3xl font-bold text-white">Shopy</h1>
       </div>
 
@@ -156,16 +180,16 @@ const Navbar = () => {
           onChange={(e) => handleLanguageChange(e.target.value)}
           value={changeLanguage}
         >
-          <option value="en">{t('en')}</option>
-          <option value="ar">{t('ar')}</option>
+          <option value="en" className='text-black'>{t('en')}</option>
+          <option value="ar" className='text-black'>{t('ar')}</option>
+          <option value="fr" className='text-black'>{t('fr')}</option>
         </select>
       </section>
 
       {/* Arrow Icon */}
       <div
-        className={`flex sm:hidden justify-center items-center col-span-1 ${
-          expand ? 'rotate-180' : 'rotate-0'
-        } duration-150 ease-in-out transition-all`}
+        className={`flex sm:hidden justify-center items-center col-span-1 ${expand ? 'rotate-180' : 'rotate-0'
+          } duration-150 ease-in-out transition-all`}
         onClick={() => {
           setExpand(!expand);
           playAnimation();
