@@ -1,4 +1,3 @@
-import Layout from "../../global/view/pages_layout";
 
 const UserOrderLogs = () => {
     // Sample data for order logs
@@ -36,7 +35,6 @@ const UserOrderLogs = () => {
 
 
     return (
-        <Layout>
             <div className="max-w-6xl mx-auto">
                 <h2 className="text-center mb-10 mt-5 text-lg font-bold text-indigo-600">Order Logs</h2>
                 {orderLogs.length > 0 ? (
@@ -62,7 +60,6 @@ const UserOrderLogs = () => {
                     <p>No order logs available.</p>
                 )}
             </div>
-        </Layout>
     );
 };
 

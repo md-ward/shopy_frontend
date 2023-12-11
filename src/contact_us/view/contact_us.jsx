@@ -1,12 +1,10 @@
 
 import useTranslationStore from '../../global/state/useTranslationStore';
-import Layout from '../../global/view/pages_layout';
 
 const ContactUs = () => {
   const { t, currentLanguage } = useTranslationStore();
 
   return (
-    <Layout>
       <div className="flex justify-center items-center min-h-screen text-indigo-600">
         <div className="flex w-full gap-2  justify-center">
           {/* store location */}
@@ -61,7 +59,6 @@ const ContactUs = () => {
           </div>
         </div>
       </div>
-    </Layout>
   );
 };
 

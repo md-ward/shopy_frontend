@@ -3,43 +3,46 @@
 @tailwind utilities;
 
 @font-face {
-    font-family: AttackGraf;
-    src: url('/assets/aAttackGraffiti.ttf');
+  font-family: AttackGraf;
+  src: url("/assets/aAttackGraffiti.ttf");
 }
 
-
-
 html {
-    scroll-behavior: smooth;
+  scroll-behavior: smooth;
 }
 
 .custome_grad {
-    background: #4776E6;
-    /* fallback for old browsers */
-    background: -webkit-linear-gradient(to right, #8E54E9, #4776E6);
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to right, #8E54E9, #4776E6);
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
-
+  background: #4776e6;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8e54e9, #4776e6);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #8e54e9, #4776e6);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
 .new_check {
+  background: indigo !important;
 
-    background: indigo !important;
-
-    opacity: '80%';
+  opacity: "80%";
 }
 
 .custom-scrollbar::-webkit-scrollbar {
-    width: 8px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background-color: #c4c4c4;
-    border-radius: 8px;
-  }
-  
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background-color: #f2f2f2;
-  }
+  width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #c4c4c4;
+  border-radius: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #f2f2f2;
+}
+
+.input-field input:focus,
+textarea:focus {
+  outline: none;
+  border: 2px solid #5c6ac4;
+  padding: 8px;
+  border-radius: 4px;
+}

@@ -1,5 +1,4 @@
 import { useParams } from 'react-router-dom';
-import Layout from './pages_layout';
 import RatingComponent from '../../shop/widgets/rating_stars';
 import ImageGallery from '../widgets/image_gallery';
 import { useEffect, useRef } from 'react';
@@ -90,7 +89,6 @@ const ProductDetail = () => {
     };
 
     return (
-        <Layout>
             <div
                 dir={currentLanguage === 'ar' ? 'rtl' : 'ltr'}
                 ref={productDetailPageref}
@@ -128,7 +126,6 @@ const ProductDetail = () => {
                     </div>
                 </div>
             </div>
-        </Layout>
     );
 };
 

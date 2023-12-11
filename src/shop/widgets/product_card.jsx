@@ -4,7 +4,7 @@ import RatingComponent from './rating_stars';
 
 const ProductCard = ({ product }) => {
     return (
-        <Link to={`/products/${product.id}`}>
+        <Link to={`/products/${product.id}`} >
             <div className="bg-white rounded-lg shadow-md p-4 m-4 hover:scale-105 duration-200 ease-in-out transition-all">
                 <img src={product.imageUrl} alt={product.name} className="w-full h-32 object-contain mb-4" />
                 <span className="flex justify-around">

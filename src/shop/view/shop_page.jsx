@@ -1,4 +1,3 @@
-import Layout from "../../global/view/pages_layout";
 import FilterSection from "../widgets/filters";
 import ProductSection from "../widgets/products_section";
 
@@ -78,12 +77,10 @@ const ShopPage = () => {
     ];
 
     return (
-        <Layout>
             <div className="flex flex-col md:flex-row">
                 <FilterSection />
                 <ProductSection products={fetchedProducts} />
             </div>
-        </Layout>
     );
 };
 
