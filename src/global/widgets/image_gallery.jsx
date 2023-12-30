@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import gsap from "gsap";
 
@@ -8,6 +8,10 @@ const ImageGallery = ({ images }) => {
   const imageRef = useRef();
   const imageBoxRefs = useRef([]);
   const blueBoxRef = useRef();
+
+  useEffect(() => {
+    console.count("image ");
+  }, []);
 
   const handleImageClick = (index) => {
     //? to make sure the blue box visible on first render
@@ -54,7 +58,7 @@ const ImageGallery = ({ images }) => {
         ref={imageRef}
         src={images[currentImage]}
         alt={`Product ${currentImage + 1}`}
-        className="mb-4 h-auto w-full max-w-lg rounded-lg shadow-md"
+        className="mb-4 h-96  w-full max-w-lg rounded-lg object-contain shadow-md"
       />
       <div className="relative">
         {/* the blue box arround the small images in the gallery */}
@@ -77,7 +81,8 @@ const ImageGallery = ({ images }) => {
               key={index}
               src={image}
               alt={`Product ${index + 1}`}
-              className={`cursor-pointer ${
+              className={`
+              cursor-pointer ${
                 index === currentImage ? "opacity-100 " : "opacity-50"
               }
                                 ${

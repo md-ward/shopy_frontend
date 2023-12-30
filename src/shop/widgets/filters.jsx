@@ -1,130 +1,100 @@
-import { useLayoutEffect, useState } from 'react';
-import RatingComponent from './rating_stars';
+import { useState, useEffect } from "react";
+import useDashboardFeaturesStore from "../../admin/store/useDashboardFeaturesStore";
+import useShopStore from "../store/useShopStore";
 
 const FilterSection = () => {
-    const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
-    const [isSliderChanging, setIsSliderChanging] = useState(false);
-    const [isOpen, setIsOpen] = useState(false);
+  const { categories, handleGettingCategories } = useDashboardFeaturesStore(
+    (state) => ({
+      handleGettingCategories: state.handleGettingCategories,
+      categories: state.categories,
+    }),
+  );
+  const {
+    handleSelectCategory,
+    selectedCategories,
+    handleGettingFilteredProducts,
+  } = useShopStore((state) => ({
+    handleSelectCategory: state.handleSelectCategory,
+    selectedCategories: state.selectedCategories,
+    handleGettingFilteredProducts: state.handleGettingFilteredProducts,
+  }));
 
-    const companies = [
-        { name: 'apple', label: 'Apple' },
-        { name: 'samsung', label: 'Samsung' },
-        { name: 'huawei', label: 'Huawei' },
-        { name: 'xiaomi', label: 'Xiaomi' },
-        { name: 'asus', label: 'Asus' },
-    ];
+  const [toggleFilters, setToggleFilters] = useState(false);
 
-    const handlePriceRangeChange = (event) => {
-        setPriceRange({ ...priceRange, min: parseInt(event.target.value) });
-        setIsSliderChanging(true);
-    };
+  useEffect(() => {
+    handleGettingCategories();
+  }, [handleGettingCategories]);
 
-    const handleSliderChangeEnd = () => {
-        setIsSliderChanging(false);
-    };
+  return (
+    <div className="relative">
+      <div
+        title="filters"
+        className="cursor-pointer"
+        onClick={() => setToggleFilters(!toggleFilters)}
+      >
+        <img
+          src="/assets/filter.svg"
+          alt=""
+          className="h-5 transition-all duration-300 ease-in-out hover:scale-110"
+        />
+      </div>
+      {toggleFilters && (
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleGettingFilteredProducts();
+          }}
+          className="absolute z-30 mt-2 min-w-52 rounded bg-white shadow-lg"
+        >
+          <div className="border-b px-4 py-2">
+            <h2 className="text-lg font-semibold">Filter by Category</h2>
+          </div>
+          <ul className="custom-scrollbar  space-y-2 divide-y overflow-y-auto py-2">
+            {categories?.map((category, index) => (
+              <li
+                onClick={() => handleSelectCategory(category.category)}
+                key={index}
+                className={`flex  cursor-pointer items-center justify-between  px-4 py-2 hover:bg-gray-100 ${
+                  selectedCategories?.includes(category.category)
+                    ? "bg-indigo-200 hover:bg-indigo-200"
+                    : "text-gray-900"
+                }`}
+              >
+                <span>{category.category}</span>
+                {selectedCategories?.includes(category.category) && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-4 w-4"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M14.707 5.293a1 1 0 00-1.414-1.414L8 9.586 5.707 7.293a1 1 0 00-1.414 1.414l3 3a1 1 0 001.414 0l7-7z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                )}
+              </li>
+            ))}
+          </ul>
+          <div className="border-t px-4 py-2">
+            <h2 className="text-lg font-semibold">Filter by Price Range</h2>
+            <ul className="py-2">
+              <li className="px-4 py-2">Under $50</li>
+              <li className="px-4 py-2">$50 - $100</li>
+              <li className="px-4 py-2">$100 - $200</li>
+              {/* Add more price range options as needed */}
+            </ul>
+          </div>
 
-    const toggleIsMobile = () => {
-        setIsOpen(!isOpen);
-    };
-
-    useLayoutEffect(() => {
-        const handleResize = () => {
-
-
-            if (window.innerWidth > 640 ) {
-                setIsOpen(true);
-            }
-             if (window.innerWidth <= 640 ) {
-                setIsOpen(false);
-            }
-
-        };
-
-        window.addEventListener('resize', handleResize);
-        handleResize(); // Check initial window size
-
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
-    return (
-        <section className="bg-white sm:min-h-screen lg:w-80 p-5 m-2 rounded-lg shadow-md border border-gray-600 ease-in-out duration-300 transition-all">
-            <button
-                onClick={toggleIsMobile}
-                type="button"
-                className={`sm:hidden   flex flex-row shadow-md w-full justify-between rounded-lg p-2 custome_grad text-white `}
-            >
-                <h1>Filters</h1>
-                <img
-                    src="assets/arrow-up.svg"
-                    alt="arrow button"
-                    className={`h-7 transform ${isOpen ? 'rotate-180 duration-200 ease-in-out' : ''}`}
-                />
-            </button>
-
-            <div
-                className={`overflow-hidden transition-height duration-300 ease-in-out ${isOpen ? 'h-[400px]' : 'h-0'}`}
-            >
-                {/* check box filters */}
-                <div className="flex flex-col justify-between backdrop-filter backdrop-blur">
-                    {companies.map((company, index) => (
-                        <span className="flex flex-row items-center gap-6 p-2" key={index}>
-                            <input type="checkbox" name={company.label} className="w-4 h-4 cursor-pointer" />
-                            <h2>{company.label}</h2>
-                        </span>
-                    ))}
-                </div>
-
-                {/* price range handler */}
-                <div className="mt-4">
-                    <span className="flex justify-between mb-6">
-                        <h3 className="text-lg font-semibold mb-2">Price Range:</h3>
-                        <h2>{priceRange.min}$ - {priceRange.max}$</h2>
-                    </span>
-                    <div className="relative">
-                        <input
-                            style={{
-                                background: `linear-gradient(to right, #6366f1 ${(
-                                    (priceRange.min / 10000) *
-                                    100
-                                ).toFixed(2)}%, #e2e8f0 ${(
-                                    (priceRange.min / 10000) *
-                                    100
-                                ).toFixed(2)}%, #e2e8f0 100%)`,
-                                accentColor: 'white',
-                                cursor: 'pointer',
-                            }}
-                            type="range"
-                            min={0}
-                            max={10000}
-                            step={100}
-                            name="min"
-                            value={priceRange.min}
-                            onChange={handlePriceRangeChange}
-                            onMouseDown={() => setIsSliderChanging(true)}
-                            onMouseUp={handleSliderChangeEnd}
-                            onTouchStart={() => setIsSliderChanging(true)}
-                            onTouchEnd={handleSliderChangeEnd}
-                            className="w-full h-4 bg-gray-300 rounded-full appearance-none"
-                        />
-                        <div
-                            style={{ left: `${(priceRange.min / 10000) * 100}%` }}
-                            className={`absolute top-0 -mt-8 left-0 px-2 py-1 bg-white rounded-full shadow text-sm transition-opacity ${isSliderChanging ? 'opacity-100' : 'opacity-0'
-                                }`}
-                        >
-                            ${priceRange.min}
-                        </div>
-                    </div>
-
-                    <span className="flex flex-col justify-evenly w-full text-ellipsis items-center">
-                        <h1 className="">By rate:</h1>
-                        <RatingComponent className="flex mt-8 select-none justify-center" />
-                    </span>
-                </div>
-            </div>
-        </section>
-    );
+          <button className="mt-2 w-full rounded-md bg-indigo-600 px-4 py-2 text-white hover:bg-indigo-700">
+            Apply
+          </button>
+        </form>
+      )}
+    </div>
+  );
 };
 
 export default FilterSection;

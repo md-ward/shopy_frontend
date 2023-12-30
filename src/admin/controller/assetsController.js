@@ -1,5 +1,6 @@
 import axios from "axios";
-import { API_URL } from "../../env.json";
+import { getCookie } from "../../useCookie";
+const URL = import.meta.env.VITE_API_URL;
 
 async function uploadImage(formData, onUploadProgress) {
   try {
@@ -9,8 +10,9 @@ async function uploadImage(formData, onUploadProgress) {
     data.append("image", image);
     data.append("imageName", imageName);
     data.append("imageAlt", imageAlt);
-    const response = await axios.post(API_URL + "/admin/upload", data, {
+    const response = await axios.post(URL + "/admin/upload", data, {
       headers: {
+        Authorization: getCookie("jwt_admin"),
         "Content-Type": "multipart/form-data",
         "Cache-Control": "max-age=3600",
       },
@@ -23,20 +25,19 @@ async function uploadImage(formData, onUploadProgress) {
       throw new Error("Image upload failed");
     }
   } catch (error) {
-    console.log("Error:", error.message);
+    console.log("Error:", error.response.data.message);
     // Handle error and display error message
-    throw error;
+    throw error.response.data.message;
   }
 }
 
 async function getProductsImages() {
   try {
-    const response = await axios.get(API_URL + "/admin/images/thumbs");
+    const response = await axios.get(URL + "/admin/images/thumbs");
 
     return response.data;
   } catch (error) {
-    // console.log("Error:", error.message);
-    throw "Failed to fetch thumbnails "
+    throw "Failed to fetch thumbnails ";
 
     // Handle error and display error message
   }

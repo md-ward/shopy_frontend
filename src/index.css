@@ -10,14 +10,32 @@
 html {
   scroll-behavior: smooth;
 }
+@layer components {
+  .input-field input:focus,
+  textarea:focus {
+    outline: none;
+    border: 2px solid #5c6ac4;
+    padding: 8px;
+    border-radius: 4px;
+  }
 
-.custome_grad {
-  background: #4776e6;
-  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #8e54e9, #4776e6);
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #8e54e9, #4776e6);
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .text-grad {
+    @apply bg-gradient-to-t from-[#8e54e9]  to-[#4776e6]  bg-clip-text text-2xl font-bold text-transparent;
+  }
+  .neumorphism-shadow {
+    box-shadow:
+      -4px -4px 10px rgb(255, 255, 255),
+      4px 4px 10px rgba(0, 0, 0, 0.219);
+  }
+
+  .custome_grad {
+    background: #4776e6;
+    /* fallback for old browsers */
+    background: -webkit-linear-gradient(to right, #8e54e9, #4776e6);
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to right, #8e54e9, #4776e6);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  }
 }
 
 .new_check {
@@ -31,7 +49,11 @@ html {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: #c4c4c4;
+  background: #4776e6;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #8e54e9, #4776e6);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #8e54e9, #4776e6);
   border-radius: 8px;
 }
 
@@ -39,10 +61,32 @@ html {
   background-color: #f2f2f2;
 }
 
-.input-field input:focus,
-textarea:focus {
-  outline: none;
-  border: 2px solid #5c6ac4;
-  padding: 8px;
-  border-radius: 4px;
+/* HTML: <div class="loader"></div> */
+.loader {
+  width: 120px;
+  height: 22px;
+  border-radius: 40px;
+  color: #514b82;
+  border: 2px solid;
+  position: relative;
+  overflow: hidden;
+}
+.loader::before {
+  content: "";
+  position: absolute;
+  margin: 2px;
+  width: 14px;
+  top: 0;
+  bottom: 0;
+  left: -20px;
+  border-radius: inherit;
+  background: currentColor;
+  box-shadow: -10px 0 12px 3px currentColor;
+  clip-path: polygon(0 5%, 100% 0, 100% 100%, 0 95%, -30px 50%);
+  animation: l14 1s infinite linear;
+}
+@keyframes l14 {
+  100% {
+    left: calc(100% + 20px);
+  }
 }

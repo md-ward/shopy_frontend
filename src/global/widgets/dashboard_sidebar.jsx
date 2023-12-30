@@ -1,13 +1,11 @@
 import {
   faChartBar,
   faFileInvoice,
-  faPlus,
   faClipboardList,
   faBox,
+  faAdd,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import gsap from "gsap/gsap-core";
-import { useEffect, useRef } from "react";
 
 import { NavLink } from "react-router-dom";
 
@@ -24,8 +22,8 @@ const navigationLinks = [
   },
   {
     to: "/admin/add-products",
-    label: "Add Products",
-    icon: faPlus,
+    label: "Products",
+    icon: faAdd,
   },
   {
     to: "/admin/orders",
@@ -69,52 +67,17 @@ const DashboardSidebar = () => {
 export default DashboardSidebar;
 
 export const BottomNavigationBar = () => {
-  const navRef = useRef();
-
-  useEffect(() => {
-    if (
-      window.location.pathname != "/admin" &&
-      window.location.pathname != "/admin/"
-    ) {
-      handleNavClick(
-        navigationLinks.findIndex(
-          (link) => link.to == window.location.pathname,
-        ),
-      );
-    }
-  });
-  function handleNavClick(index) {
-    const icon = document.getElementById(`icon-${index}`);
-    const xPos = icon.getBoundingClientRect().x;
-
-    const timeline = gsap.timeline();
-    timeline.to("#sp", { translateX: xPos, duration: 0.2 });
-  }
-
   return (
-    <nav
-      ref={navRef}
-      className="custome_grad z-50 grid w-full grid-cols-5 rounded-t-md p-4  duration-200 ease-in-out sm:hidden  "
-    >
+    <nav className="custome_grad z-50 grid w-full grid-cols-5 rounded-t-md p-4 duration-200  ease-in-out  sm:hidden  ">
       {navigationLinks.map((link, index) => (
-        <NavLink
-          className={"peer"}
-          onClick={() => handleNavClick(index)}
-          key={link.to}
-          to={link.to}
-        >
+        <NavLink className={"group "} key={index} to={link.to}>
           <FontAwesomeIcon
             id={`icon-${index}`}
             icon={link.icon}
-            className="z-20 aspect-square p-2  "
+            className="z-20 aspect-square rounded-full p-2 group-[.active]:bg-white "
           />
         </NavLink>
       ))}
-      <span
-        id="sp"
-        className="absolute left-0
-        -z-10 col-span-1 hidden aspect-square   w-8 place-self-center rounded-full  bg-white transition-all duration-300  ease-in-out peer-[&.active]:block"
-      ></span>
     </nav>
   );
 };

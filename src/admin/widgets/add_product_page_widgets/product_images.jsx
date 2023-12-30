@@ -1,40 +1,51 @@
-import { faAdd } from "@fortawesome/free-solid-svg-icons";
+import { faAdd, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import useProductImageStore from "../../store/useProductImageStore";
 
 const ProductImages = () => {
   const {
     confirmSettingProductImage,
+    handleRemoveProductImage,
     selectedProductImageToAdd,
-    toggleProductsGallery,
+
     settoggleProductsGallery,
-  } = useProductImageStore();
+  } = useProductImageStore((state) => ({
+    confirmSettingProductImage: state.confirmSettingProductImage,
+    handleRemoveProductImage: state.handleRemoveProductImage,
+    selectedProductImageToAdd: state.selectedProductImageToAdd,
+    settoggleProductsGallery: state.settoggleProductsGallery,
+  }));
 
   return (
-    <section className="mt-2 rounded-md border max-sm:mx-2">
-      <span className="flex w-full items-center justify-between bg-slate-50 p-1 px-3 text-lg font-semibold duration-300 ease-in-out">
-        <h1 className="rounded-md bg-slate-50 p-2 text-center text-lg font-semibold">
+    <section className="mt-2  rounded-md  border max-sm:mx-2">
+      <span className="  flex  w-full items-center justify-between bg-slate-50  p-1 px-3 text-lg font-semibold duration-300 ease-in-out">
+        <h1 className=" rounded-md bg-slate-50 p-2 text-center text-lg font-semibold">
           Product Image
         </h1>
         <FontAwesomeIcon
           icon={faAdd}
+          //! change the state of the image gallery
           onClick={settoggleProductsGallery}
-          style={{ rotate: toggleProductsGallery ? "45deg" : "90deg" }}
-          className={`aspect-square cursor-pointer rounded-full p-1 sm:duration-300 sm:ease-in-out ${
-            toggleProductsGallery
-              ? "sm:ring sm:ring-rose-400 sm:hover:bg-slate-200 sm:hover:text-rose-500"
-              : "sm:hover:bg-slate-200 sm:hover:ring sm:hover:ring-gray-400"
-          }`}
+          className="  aspect-square cursor-pointer rounded-full   p-1  duration-200 ease-in-out  sm:hover:bg-slate-200  sm:hover:p-1.5 sm:hover:ring sm:hover:ring-gray-400   "
           size="lg"
         />
       </span>
-
-      <div className="flex aspect-video w-full content-center justify-center p-2">
+      <div className="flex flex-col items-center p-2">
         {selectedProductImageToAdd && confirmSettingProductImage && (
-          <img
-            src={selectedProductImageToAdd.originalUrl}
-            alt={selectedProductImageToAdd.imageAlt}
-          />
+          <div className="max-w-lg">
+            <img
+              src={selectedProductImageToAdd.originalUrl}
+              alt={selectedProductImageToAdd.imageAlt}
+              className="w-full"
+            />
+            <button
+              onClick={handleRemoveProductImage}
+              type="button"
+              className="text-sm text-red-500 underline"
+            >
+              Remove image <FontAwesomeIcon icon={faTrash} />
+            </button>
+          </div>
         )}
       </div>
     </section>

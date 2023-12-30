@@ -6,6 +6,7 @@ import {
 import { getCookie, setCookie } from "../../global/cookies/settings_cookies";
 
 const useRegistering = create((set) => ({
+  isLoading: false,
   isLogedIn: getCookie("jwt_user") || false,
   currentForm: true,
   isDialogOpen: false,
@@ -28,6 +29,7 @@ const useRegistering = create((set) => ({
     set((state) => ({ currentForm: !state.currentForm }));
   },
   handleLoginSubmit: async (data) => {
+    set({ isLoading: true });
     if (data.username === "" || data.password === "") {
       set(() => ({ error: "Please fill in all fields" }));
       return;
@@ -37,6 +39,7 @@ const useRegistering = create((set) => ({
       .then((jwt_user) => {
         setCookie("jwt_user", jwt_user);
         set(() => ({
+          isLoading: false,
           loginData: data,
           error: null,
           isDialogOpen: false,
@@ -51,6 +54,8 @@ const useRegistering = create((set) => ({
       });
   },
   handleSignupSubmit: (data) => {
+    set({ isLoading: true });
+
     if (data.name === "" || data.password === "" || data.email === "") {
       set(() => ({ error: "Please fill in all fields" }));
       return;
@@ -59,6 +64,7 @@ const useRegistering = create((set) => ({
       .then((jwt_user) => {
         setCookie("jwt_user", jwt_user);
         set(() => ({
+          isLoading: false,
           signupData: data,
           error: null,
           isDialogOpen: false,

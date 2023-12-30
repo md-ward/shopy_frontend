@@ -1,40 +1,38 @@
 import axios from "axios";
-import { API_URL } from '../../env.json';
 
+const URL = import.meta.env.VITE_API_URL;
 export async function adminLogin(formData) {
-    console.log(formData)
-    if (formData.username=='' || formData.password=='' ) {
+  console.log(formData);
+  if (formData.username == "" || formData.password == "") {
+    throw "please enter username and password";
+  }
+  try {
+    const response = await axios.post(`${URL}/reg/admin_login`, formData);
 
-        throw 'please enter username and password'
-    }
-    try {
-
-        const response = await axios.post(`${API_URL}/reg/admin_login`, formData);
-
-        return response.data;
-    } catch (error) {
-        throw error.response.data.message;
-    }
+    return response.data;
+  } catch (error) {
+    throw error.response.data.message;
+  }
 }
 
 export async function checkUserForPassReset(email) {
-
-    try {
-        const response = await axios.post(`${API_URL}/reg/reset_password`, { email });
-        return response.data;
-
-    } catch (error) {
-        throw error.message;
-    }
+  try {
+    const response = await axios.post(`${URL}/reg/reset_password`, {
+      email,
+    });
+    return response.data;
+  } catch (error) {
+    throw error.message;
+  }
 }
 export async function confirmPinCode(pinCode) {
+  try {
+    const response = await axios.post(`${URL}/reg/confirm_pincode`, {
+      pinCode,
+    });
 
-    try {
-
-        const response = await axios.post(`${API_URL}/reg/confirm_pincode`, { pinCode });
-
-        return response;
-    } catch (error) {
-        throw error.message;
-    }
+    return response;
+  } catch (error) {
+    throw error.message;
+  }
 }

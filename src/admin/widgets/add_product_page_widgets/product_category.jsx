@@ -1,9 +1,19 @@
 import gsap from "gsap/gsap-core";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import useDashboardFeaturesStore from "../../store/useDashboardFeaturesStore";
 
 const Product_Category = () => {
   const [newCategory, setnewCategory] = useState(false);
   const newCategoryRef = useRef();
+  const { categories, handleGettingCategories, handleAddingNewCategory } =
+    useDashboardFeaturesStore((state) => ({
+      categories: state.categories,
+      handleGettingCategories: state.handleGettingCategories,
+      handleAddingNewCategory: state.handleAddingNewCategory,
+    }));
+  useEffect(() => {
+    handleGettingCategories();
+  }, [handleGettingCategories]);
 
   //! new Category bar toggle with animation
   function handleNewCategoryFeildAnimation() {
@@ -16,7 +26,7 @@ const Product_Category = () => {
         searchInput,
         { width: 0, opacity: 0 },
         {
-          width: "300px",
+          width: "200px",
           opacity: 1,
           duration: 0.3,
           ease: "power3",
@@ -25,7 +35,7 @@ const Product_Category = () => {
     } else {
       gsap.fromTo(
         searchInput,
-        { width: "300px", opacity: 1 },
+        { width: "200px", opacity: 1 },
         {
           width: 0,
           opacity: 0,
@@ -55,6 +65,8 @@ const Product_Category = () => {
       isActive: newCategory,
       title: "cancle",
       btn_action: () => {
+        newCategoryRef.current.value = "";
+
         handleNewCategoryFeildAnimation();
       },
       icon_src: "/assets/close.svg",
@@ -65,7 +77,12 @@ const Product_Category = () => {
     {
       isActive: newCategory,
       title: "confirm",
-      btn_action: () => {},
+      btn_action: async () => {
+        handleAddingNewCategory(newCategoryRef.current.value).then(() => {
+          newCategoryRef.current.value = "";
+          setnewCategory(false);
+        });
+      },
       icon_src: "/assets/check.svg",
       alt: "confirm ",
       className:
@@ -74,16 +91,15 @@ const Product_Category = () => {
   ];
 
   return (
-    <div className="mt-2    rounded-md  border max-sm:mx-2">
+    <div className="   rounded-md  border max-sm:mx-2">
       <span className=" flex w-full items-center justify-between bg-slate-50  p-1 px-3  text-lg font-semibold  duration-300 ease-in-out">
-        <p className="p-2">Category</p>
-
+        {!newCategory && <p className="p-2">Category</p>}
         {/* search bar  */}
         <input
           type="text"
           ref={newCategoryRef}
           name="new_category"
-          className={`  rounded-lg outline-none ring-indigo-600  focus:ring-1 ${
+          className={` rounded-lg   pl-2 outline-none ring-indigo-600  focus:ring-1 ${
             newCategory ? "block" : "hidden"
           }`}
         />
@@ -91,6 +107,7 @@ const Product_Category = () => {
           <React.Fragment key={index}>
             {button.isActive && (
               <button
+                type="button"
                 className={button.className}
                 onClick={button.btn_action}
                 title={button.title}
@@ -101,23 +118,15 @@ const Product_Category = () => {
           </React.Fragment>
         ))}
       </span>
-      <div className="p-2">
-        <input type="checkbox" id="cat1" />
-        <label htmlFor="cat1" className="ml-2">
-          TV
-        </label>
-      </div>
-      <div className="p-2">
-        <input type="checkbox" id="cat2" />
-        <label htmlFor="cat2" className="ml-2">
-          Mobile
-        </label>
-      </div>
-      <div className="p-2">
-        <input type="checkbox" id="cat3" />
-        <label htmlFor="cat3" className="ml-2">
-          Laptop
-        </label>
+      <div className="overflow-y-auto p-2">
+        {categories.map((category, index) => (
+          <React.Fragment key={index}>
+            <span className=" flex flex-row  items-center">
+              <input type="checkbox" value={category.category} />
+              <label className="ml-2">{category.category}</label>
+            </span>
+          </React.Fragment>
+        ))}
       </div>
     </div>
   );

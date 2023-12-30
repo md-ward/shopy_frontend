@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap/gsap-core";
-import useImagesStore from "../store/useProductImageStore";
+import useProductImageStore from "../store/useProductImageStore";
 
 const ImagesGallery = () => {
   const {
@@ -16,7 +16,7 @@ const ImagesGallery = () => {
     selectedProductImageToAdd,
     settoggleProductsGallery,
     handleConfirmSettingProductImage,
-  } = useImagesStore();
+  } = useProductImageStore();
 
   const inputRef = useRef();
   const containerRef = useRef();
@@ -64,7 +64,7 @@ const ImagesGallery = () => {
                   type="button"
                   className="h-fit rounded-md bg-white p-0.5 font-sans text-base ring-1 ring-rose-500  duration-200 ease-in-out hover:bg-red-400 hover:p-1 hover:text-white  hover:shadow-md hover:ring-0"
                 >
-                  Cancle
+                  Cancel
                 </button>
               </span>
               <h2 className="mb-2 text-lg">Select existing image</h2>
@@ -90,7 +90,16 @@ const ImagesGallery = () => {
                           onClick={() => setSelectedProductImageToAdd(image)}
                           loading="lazy"
                           key={image._id}
-                          className={`aspect-square  cursor-pointer  rounded-md object-scale-down hover:ring `}
+                          className={`aspect-square  cursor-pointer  rounded-md object-scale-down hover:ring 
+                          
+                          ${
+                            selectedProductImageToAdd &&
+                            selectedProductImageToAdd._id === image._id
+                              ? "ring ring-green-500 ring-offset-1"
+                              : ""
+                          }
+                          
+                          `}
                           src={image.thumbnailUrl}
                           alt={image.image_alt}
                         />

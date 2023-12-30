@@ -3,7 +3,7 @@ import ImgCarusale from "../widgets/img_carusale";
 
 const HomePage = () => {
   return (
-    <div className="  bg-gray-50 bg-opacity-40">
+    <div className="bg-gray-50 bg-opacity-40">
       <ImgCarusale />
       <br />
       <FeaturedProducts />

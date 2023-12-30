@@ -21,6 +21,7 @@ const useProductImageStore = create((set) => ({
    * @function settoggleProductsGallery
    */
   settoggleProductsGallery: () => {
+    console.log(65456);
     set({
       toggleProductsGallery:
         !useProductImageStore.getState().toggleProductsGallery,
@@ -32,9 +33,15 @@ const useProductImageStore = create((set) => ({
    * @function handleConfirmSettingProductImage
    */
   handleConfirmSettingProductImage: () => {
-    useProductImageStore.getState().settoggleProductsGallery();
     set({
-      confirmSetProductImage: true,
+      confirmSettingProductImage: true,
+    });
+    useProductImageStore.getState().settoggleProductsGallery();
+  },
+  handleRemoveProductImage: () => {
+    set({
+      confirmSettingProductImage: false,
+      selectedProductImageToAdd: null,
     });
   },
 
@@ -100,7 +107,7 @@ const useProductImageStore = create((set) => ({
 
       try {
         const data = await uploadImage(formData, onUploadProgress);
-        console.warn("uploaded successfully: ", data);
+        // console.warn("uploaded successfully: ", data);
         const updatedImages = useProductImageStore.getState().images;
         updatedImages.pop();
         updatedImages.push(data);
@@ -108,7 +115,7 @@ const useProductImageStore = create((set) => ({
         set({ images: updatedImages, selectedFile: null, uploadProgress: 0 });
         imageAltRef.current.value = "";
       } catch (error) {
-        console.error("something went wrong ", error.data.error);
+        console.error("something went wrong : ", error);
       }
     }
   },

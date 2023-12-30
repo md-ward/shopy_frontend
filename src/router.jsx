@@ -1,11 +1,10 @@
 import { Routes, Route, NavLink, Navigate } from "react-router-dom";
 
 import HomePage from "./home/view/home_pages";
-import ProductDetail from "./global/view/products_details";
 import ShopPage from "./shop/view/shop_page";
 import ContactUs from "./contact_us/view/contact_us";
 import useRegistering from "./user_registering/store/useRegisteringStore";
-import UserOrderLogs from "./user_registering/view/user_logs";
+import UserOrderLogs from "./shop/view/user_logs_page";
 import StatisticsPage from "./admin/view/statisticsPage";
 import AddProductsPage from "./admin/view/add_products";
 import useAdminStore from "./admin/store/useAdminStore";
@@ -15,6 +14,9 @@ import InvoiceAndBilling from "./admin/view/invoice_and_billing_page";
 import OrdersPage from "./admin/view/orders_page";
 import AdminLayout from "./global/layouts/admin_page_layout";
 import Layout from "./global/layouts/pages_layout";
+import CartPage from "./cart/view/cartPage";
+import ProductDetail from "./shop/view/products_details_page";
+import AboutPage from "./home/view/aboutPage";
 
 const AppRouter = () => {
   return (
@@ -24,14 +26,18 @@ const AppRouter = () => {
 
         <Route path="/shop" element={<ShopPage />}></Route>
         <Route path="/contact" element={<ContactUs />}></Route>
+        <Route path="/about" element={<AboutPage />}></Route>
 
         <Route path="/user_logs" element={<ProtectedRoute />} />
-        <Route path="/products/:productId" element={<ProductDetail />}></Route>
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/shop/:productId" element={<ProductDetail />}></Route>
         <Route path="/*" element={<NoMatch />} />
       </Route>
+
       <Route path="/admin" element={<AdminProtectedRoute />}>
         <Route path="/admin/statistics" element={<StatisticsPage />} />
         <Route path="/admin/add-products" element={<AddProductsPage />} />
+        <Route path="/admin/edit/:productId" element={<AddProductsPage />} />
         <Route path="/admin/inventory" element={<InvintoryPage />} />
         <Route
           path="/admin/invoice-and-billing"

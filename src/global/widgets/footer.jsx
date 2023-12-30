@@ -29,63 +29,56 @@ const Footer = () => {
       className="custome_grad select-none py-6 text-white"
       dir={currentLanguage == "ar" ? "rtl" : "ltr"}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex gap-2 max-sm:flex-wrap">
-          {/* about us section */}
-          <div className="mb-6 w-full sm:w-1/2 lg:w-1/4">
-            <h3 className="mb-4 text-lg font-semibold">{t("about")}</h3>
-            <p>{t("about_text")}</p>
-          </div>
-          {/* contact us section */}
-          <div className="mb-6 w-full select-text sm:w-1/2   sm:ltr:ml-10 sm:rtl:mr-10 lg:w-1/4">
-            <h3 className=" mb-4 select-none text-lg font-semibold">
-              {t("contact")}
-            </h3>
-            <p>123 Main Street, City, Country</p>
-            <p>info@example.com</p>
-            <p>+1 234 567 890</p>
-          </div>
-          {/* nav links section */}
-          <div className="mb-6 w-full sm:w-1/2 lg:w-1/4">
-            <h3 className="mb-4 text-lg font-semibold">{t("quick_links")}</h3>
-            <ul>
-              {navLinks.map((link, index) => (
-                <li key={index} className="group relative mb-2 w-fit">
-                  <span className="absolute -top-1 right-0 h-0.5 w-0 bg-white   opacity-0 transition-all duration-300 ease-in-out group-hover:w-full group-hover:opacity-100"></span>
+      <div className="container mx-auto    flex   flex-col  justify-evenly  px-4  sm:flex-row   max-sm:[&_div]:items-start">
+        {/* contact us section */}
+        <div className="mb-6 flex  w-full select-text flex-col  place-content-between ">
+          <h3 className=" mb-4 select-none text-lg font-semibold">
+            {t("contact")}
+          </h3>
+          <p>123 Main Street, City, Country</p>
+          <p>info@example.com</p>
+          <p>+1 234 567 890</p>
+        </div>
+        {/* nav links section */}
+        <div className="mb-6 flex  w-full   flex-col items-center ">
+          <h3 className="mb-4 text-lg font-semibold">{t("quick_links")}</h3>
+          <ul>
+            {navLinks.map((link, index) => (
+              <li key={index} className="group relative mb-2 w-fit">
+                <span className="absolute -top-1 right-0 h-0.5 w-0 bg-white   opacity-0 transition-all duration-300 ease-in-out group-hover:w-full group-hover:opacity-100"></span>
 
-                  <Link
-                    to={link.path}
-                    className="transition-colors duration-200 hover:text-white"
-                  >
-                    {t(link.label)}
-                  </Link>
-                  <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:w-full group-hover:opacity-100"></span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          {/* social media section */}
-          <div className=" mb-6 w-full sm:w-1/2 lg:w-1/4">
-            <h3 className="mb-4 text-lg font-semibold">{t("followUs")}</h3>
-            <ul className="flex flex-row justify-start gap-10 ">
-              {socialLinks.map((link, index) => (
-                <li key={index}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="transition-colors duration-200 hover:text-white"
-                  >
-                    <img
-                      src={link.img}
-                      alt={link.name}
-                      className="h-6 hover:scale-110 sm:h-7"
-                    />
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+                <Link
+                  to={link.path}
+                  className="transition-colors duration-200 hover:text-white"
+                >
+                  {t(link.label)}
+                </Link>
+                <span className="absolute -bottom-1 left-0 h-0.5 w-0 bg-white opacity-0 transition-all duration-300 ease-in-out group-hover:w-full group-hover:opacity-100"></span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        {/* social media section */}
+        <div className=" mb-6 flex  w-full flex-col items-center">
+          <h3 className="mb-4 text-lg font-semibold">{t("followUs")}</h3>
+          <ul className="flex flex-row justify-start gap-10 ">
+            {socialLinks.map((link, index) => (
+              <li key={index}>
+                <a
+                  href={link.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="transition-colors duration-200 hover:text-white"
+                >
+                  <img
+                    src={link.img}
+                    alt={link.name}
+                    className="h-6 hover:scale-110 sm:h-7"
+                  />
+                </a>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
       {/* copy right  */}

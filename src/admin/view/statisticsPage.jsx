@@ -1,57 +1,91 @@
-// import AdminLayout from "../../global/view/admin_page_layout";
-
+import { useEffect, useState } from "react";
+import fetchStatistics from "../controller/statisticsController";
 
 const StatisticsPage = () => {
-    // Mock data for statistics
-    const registeredUsers = 1234;
-    const activeUsers = 567;
-    const siteVisitors = 8901;
-    const monthlySales = 50000;
-    const weeklySales = 12000;
-    const dailySales = 2000;
+  const [statistics, setStatistics] = useState({
+    registeredUsers: 0,
+    totalComments: 0,
+    totalOrders: 0,
+    totalProducts: 0,
+    totalSalesRevenue: 0,
+    averageProductRating: 0,
+    popularProducts: [],
+    recentOrders: [],
+    recentComments: [],
+  });
 
-    return (
+  useEffect(() => {
+    fetchStatistics(setStatistics);
+  }, []);
 
+  return (
+    <div className="flex w-full flex-col p-6">
+      <h1 className="mb-4 text-2xl font-bold">Statistics</h1>
 
-        <div className="fle w-full p-6">
-            <h1 className="text-2xl font-bold mb-4">Statistics</h1>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Registered Users</h2>
-                    <p className="text-3xl font-bold">{registeredUsers}</p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Active Users</h2>
-                    <p className="text-3xl font-bold">{activeUsers}</p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Site Visitors</h2>
-                    <p className="text-3xl font-bold">{siteVisitors}</p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Monthly Sales</h2>
-                    <p className="text-3xl font-bold">${monthlySales}</p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Weekly Sales</h2>
-                    <p className="text-3xl font-bold">${weeklySales}</p>
-                </div>
-
-                <div className="bg-white rounded-lg shadow-md p-4">
-                    <h2 className="text-lg font-semibold mb-2">Daily Sales</h2>
-                    <p className="text-3xl font-bold">${dailySales}</p>
-                </div>
-            </div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Registered Users</h2>
+          <p className="text-3xl font-bold">{statistics.registeredUsers}</p>
         </div>
 
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Total Comments</h2>
+          <p className="text-3xl font-bold">{statistics.totalComments}</p>
+        </div>
 
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Total Orders</h2>
+          <p className="text-3xl font-bold">{statistics.totalOrders}</p>
+        </div>
 
-    );
-}
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Total Products</h2>
+          <p className="text-3xl font-bold">{statistics.totalProducts}</p>
+        </div>
+
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Total Sales Revenue</h2>
+          <p className="text-3xl font-bold">${statistics.totalSalesRevenue}</p>
+        </div>
+
+        <div className="rounded-lg bg-white p-4 shadow-md">
+          <h2 className="mb-2 text-lg font-semibold">Average Product Rating</h2>
+          <p className="text-3xl font-bold">
+            {statistics.averageProductRating}
+          </p>
+        </div>
+      </div>
+      <section className="flex w-full flex-col">
+        <h2 className="mt-8 text-2xl font-semibold text-gray-800">
+          Popular Products
+        </h2>
+        <div className="mt-6 grid md:grid-cols-2 lg:grid-cols-4 gap-4">
+          {statistics.popularProducts.map((product) => (
+            <div
+              className="flex flex-col items-center rounded-md bg-white p-2 shadow-md"
+              key={product.productId}
+            >
+              <div className="mb-2 flex h-40 w-full items-center justify-center rounded-md bg-gray-200">
+                <img
+                  src={product.thumbnailUrl}
+                  alt={product.image_alt}
+                  className="h-auto max-h-full"
+                />
+              </div>
+              <div className="text-center">
+                <p className="text-sm font-semibold text-gray-800">
+                  {product.productName}
+                </p>
+                <p className="text-xs text-gray-600">
+                  {product.count} units sold
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
+};
 
 export default StatisticsPage;
