@@ -117,7 +117,7 @@ const OrderDetails = ({ orderId, cancel }) => {
               <option value="Delivered">Delivered</option>
             </select>
             <button
-              className="custome_grad hover:text-grad   ml-4 cursor-pointer rounded px-4 py-2 !text-sm font-bold text-white duration-200 ease-in-out hover:bg-white hover:ring hover:ring-indigo-500"
+              className="custom-button"
               onClick={handleStatusChange}
               disabled={!selectedStatus}
             >

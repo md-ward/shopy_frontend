@@ -109,7 +109,7 @@ const ProductDetail = () => {
             </button>
           </div>
           {singleProduct && (
-            <ImageGallery images={[singleProduct.image.originalUrl]} />
+            <ImageGallery images={[singleProduct.image?.originalUrl]} />
           )}
         </div>
       </div>

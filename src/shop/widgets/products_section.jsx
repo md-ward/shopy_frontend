@@ -7,6 +7,7 @@ import {
   faChevronLeft,
   faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSearchParams } from "react-router-dom";
 
 const ProductSection = () => {
   const { products, handleGettingProducts } = useDashboardFeaturesStore(
@@ -19,9 +20,17 @@ const ProductSection = () => {
     filteredProducts: state.filteredProducts,
   }));
 
+  const [searchParams, setSearchParams] = useSearchParams({ page: "1" });
+
+  function handleChangePage(page) {
+    window.scrollTo({ top });
+    handleGettingProducts(page);
+    setSearchParams({ page: page });
+  }
+
   useEffect(() => {
-    handleGettingProducts();
-  }, [handleGettingProducts]);
+    handleGettingProducts(searchParams.get("page"));
+  }, [handleGettingProducts, searchParams]);
 
   return (
     <>
@@ -36,26 +45,38 @@ const ProductSection = () => {
       </div>
 
       <nav
-        className="isolate flex w-full  gap-2 cursor-pointer  items-center justify-center -space-x-px rounded-md shadow-sm"
+        className="isolate flex w-full cursor-pointer items-center justify-center gap-2 -space-x-px rounded-md shadow-sm"
         aria-label="Pagination"
       >
-        <FontAwesomeIcon
-          className="relative inline-flex h-5 w-5 items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          icon={faChevronLeft}
-        />
+        <button
+          onClick={() => handleChangePage(Number(searchParams.get("page")) - 1)}
+          disabled={Number(searchParams.get("page")) <= 1}
+          className="relative inline-flex items-center rounded-l-md px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-slate-100"
+        >
+          <FontAwesomeIcon className="h-5 w-5" icon={faChevronLeft} />
+        </button>
 
         {Array.from({ length: products.pages }, (_, index) => (
           <span
-            className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
+            onClick={() => handleChangePage(index + 1)}
+            className={` relative inline-flex items-center rounded-md px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 ${
+              products.currentPage == index + 1
+                ? "custome_grad text-white "
+                : ""
+            }`}
             key={index}
           >
             {index + 1}
           </span>
         ))}
-        <FontAwesomeIcon
-          className="relative inline-flex h-5 w-5 items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0"
-          icon={faChevronRight}
-        />
+
+        <button
+          onClick={() => handleChangePage(Number(searchParams.get("page")) + 1)}
+          disabled={Number(searchParams.get("page")) >= products.pages}
+          className="relative inline-flex items-center rounded-r-md px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:bg-slate-100"
+        >
+          <FontAwesomeIcon className="h-5 w-5" icon={faChevronRight} />
+        </button>
       </nav>
     </>
   );

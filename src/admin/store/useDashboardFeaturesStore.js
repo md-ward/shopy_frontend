@@ -5,6 +5,7 @@ import {
   getCategories,
   getProducts,
   getSingleProduct,
+  updateFeaturedProduct,
   updateProduct,
 } from "../controller/productsController";
 import useProductImageStore from "./useProductImageStore";
@@ -13,30 +14,90 @@ import {
   getAdminOrdereDetails,
   getAdminOrderes,
 } from "../controller/adminOrderesController";
+import fetchStatistics, {
+  fetchContactUsMessages,
+} from "../controller/statisticsController";
 
 const useDashboardFeaturesStore = create((set) => ({
   isLoading: false,
   singleProduct: null,
+
+  featured: [],
   products: [],
   categories: [],
   orders: [],
+  contactUsMessages: [],
   singleOrderDetails: null,
+
+  statistics: {
+    registeredUsers: 0,
+    totalComments: 0,
+    totalOrders: 0,
+    totalProducts: 0,
+    totalContactMessages: 0,
+    totalSalesRevenue: 0,
+    averageProductRating: 0,
+    popularProducts: [],
+    recentOrders: [],
+    recentComments: [],
+  },
+
   //! fetching  the Products...
-  handleGettingProducts: async () => {
+  handleGettingProducts: async (currentPage) => {
     set({ isLoading: true });
-    await getProducts()
+    await getProducts(currentPage)
       .then((products) => {
-        set({ isLoading: false, products });
+        const featured = products.products.map((product) => ({
+          productId: product._id,
+          isFeatured: product.featured,
+        }));
+        set({ isLoading: false, products, featured });
       })
       .catch((error) => {
         console.log(error);
       });
   },
 
+  handleFeaturedSelection(productId, isFeatured) {
+    const featured = useDashboardFeaturesStore.getState().featured;
+    const updatedFeatured = featured.map((item) => {
+      if (item.productId === productId) {
+        return {
+          ...item,
+          isFeatured: isFeatured,
+        };
+      }
+      return item;
+    });
+
+    // console.log({ updatedFeatured });
+    set({ featured: updatedFeatured });
+  },
+
+  handleFeaturedProductsSaveChanges: async () => {
+    if (confirm("update featured products...?")) {
+      set({ isLoading: true });
+      await updateFeaturedProduct(useDashboardFeaturesStore.getState().featured)
+        .then(() => {
+          // const featured = products.products.map((product) => ({
+          //   productId: product._id,
+          //   isFeatured: product.featured,
+          // }));
+          alert("updated sucessfully ");
+          // set({ isLoading: false, products, featured });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    } else {
+      return;
+    }
+  },
+
   //! Fetching a single product by ID
   handleSingleProductDetails: async (productId, edit, formRef) => {
     try {
-      console.log(edit);
+      // console.log(edit);
       set({ isLoading: true });
       if (edit) {
         await getSingleProduct(productId).then((product) => {
@@ -138,6 +199,7 @@ const useDashboardFeaturesStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
   handleGettingAdminOrderDetails: async (orderId) => {
     set({ isLoading: true });
     try {
@@ -148,6 +210,7 @@ const useDashboardFeaturesStore = create((set) => ({
       set({ isLoading: false });
     }
   },
+
   handleUpdatingOrderStatus: async (orderId, status) => {
     set({ isLoading: true });
     try {
@@ -172,6 +235,23 @@ const useDashboardFeaturesStore = create((set) => ({
       console.error("Error updating order status:", error);
       set({ isLoading: false });
     }
+  },
+
+  handleGettingStatistics: async () => {
+    set({ isLoading: true });
+    await fetchStatistics().then((data) => {
+      if (data.valid) {
+        set({ isLoading: false, statistics: data.value });
+      } else {
+        set({ isLoading: false });
+      }
+    });
+  },
+  handleGettingContactUsMessages: async () => {
+    set({ isLoading: true });
+    await fetchContactUsMessages().then((messages) => {
+      set({ isLoading: false, contactUsMessages: messages });
+    });
   },
 }));
 

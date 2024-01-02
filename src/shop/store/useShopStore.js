@@ -39,6 +39,7 @@ const useShopStore = create((set) => ({
   handleGettingFilteredProducts: async () => {
     await filterProducts(useShopStore.getState().selectedCategories).then(
       (data) => {
+        console.warn(data);
         set({ filteredProducts: data });
       },
     );

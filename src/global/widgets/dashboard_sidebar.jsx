@@ -1,6 +1,5 @@
 import {
   faChartBar,
-  faFileInvoice,
   faClipboardList,
   faBox,
   faAdd,
@@ -15,11 +14,7 @@ const navigationLinks = [
     label: "Statistics",
     icon: faChartBar,
   },
-  {
-    to: "/admin/invoice-and-billing",
-    label: "Invoice and Billing",
-    icon: faFileInvoice,
-  },
+
   {
     to: "/admin/add-products",
     label: "Products",
@@ -68,7 +63,7 @@ export default DashboardSidebar;
 
 export const BottomNavigationBar = () => {
   return (
-    <nav className="custome_grad z-50 grid w-full grid-cols-5 rounded-t-md p-4 duration-200  ease-in-out  sm:hidden  ">
+    <nav className="custome_grad z-50 grid w-full grid-cols-4 place-items-center rounded-t-md p-4 duration-200  ease-in-out  sm:hidden  ">
       {navigationLinks.map((link, index) => (
         <NavLink className={"group "} key={index} to={link.to}>
           <FontAwesomeIcon

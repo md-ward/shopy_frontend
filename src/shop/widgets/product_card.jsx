@@ -10,8 +10,9 @@ const ProductCard = ({ product }) => {
   function handleNavToProductPage() {
     navigate(`/shop/${product._id}`);
   }
-  const { handleAddProductToCart } = useCartStore((state) => ({
+  const { handleAddProductToCart, itemQuantity } = useCartStore((state) => ({
     handleAddProductToCart: state.handleAddProductToCart,
+    itemQuantity: state.itemQuantity,
   }));
 
   return (
@@ -49,7 +50,7 @@ const ProductCard = ({ product }) => {
         <p className="mt-2  overflow-hidden overflow-ellipsis whitespace-nowrap text-sm text-gray-700">
           {product.description}
         </p>
-        <div className="mt-4">
+        <div className="mt-4 flex  gap-2">
           <button
             onClick={() =>
               handleAddProductToCart(
@@ -67,6 +68,11 @@ const ProductCard = ({ product }) => {
           >
             Add to Cart
           </button>
+          {itemQuantity(product._id) && (
+            <p className="flex basis-14 items-center justify-center rounded-md bg-indigo-500 text-white ">
+              {itemQuantity(product._id)}
+            </p>
+          )}
         </div>
       </div>
     </div>

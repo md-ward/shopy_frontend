@@ -34,7 +34,7 @@ const FilterSection = () => {
       >
         <img
           src="/assets/filter.svg"
-          alt=""
+          alt="apply filters icon"
           className="h-5 transition-all duration-300 ease-in-out hover:scale-110"
         />
       </div>
@@ -43,6 +43,7 @@ const FilterSection = () => {
           onSubmit={(e) => {
             e.preventDefault();
             handleGettingFilteredProducts();
+            setToggleFilters(!toggleFilters);
           }}
           className="absolute z-30 mt-2 min-w-52 rounded bg-white shadow-lg"
         >

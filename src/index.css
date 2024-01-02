@@ -19,6 +19,10 @@ html {
     border-radius: 4px;
   }
 
+  .custom-button {
+    @apply custome_grad hover:text-grad   ml-4 cursor-pointer rounded px-4 py-2 !text-sm font-bold text-white duration-200 ease-in-out hover:bg-white hover:ring hover:ring-indigo-500;
+  }
+
   .text-grad {
     @apply bg-gradient-to-t from-[#8e54e9]  to-[#4776e6]  bg-clip-text text-2xl font-bold text-transparent;
   }
@@ -42,6 +46,10 @@ html {
   background: indigo !important;
 
   opacity: "80%";
+}
+
+.custom-scrollbar-thin::-webkit-scrollbar {
+  height: 8px;
 }
 
 .custom-scrollbar::-webkit-scrollbar {

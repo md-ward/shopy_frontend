@@ -3,9 +3,9 @@ import { getCookie } from "../../useCookie";
 
 const URL = import.meta.env.VITE_API_URL;
 
-async function getProducts() {
+async function getProducts(currentPage = 1) {
   try {
-    const response = await axios.get(`${URL}/products`);
+    const response = await axios.get(`${URL}/products/get/${currentPage}`);
     console.log("Products:", response.data);
     return response.data;
   } catch (error) {
@@ -15,7 +15,7 @@ async function getProducts() {
 
 async function getSingleProduct(productId) {
   try {
-    const response = await axios.get(`${URL}/products/get/${productId}`);
+    const response = await axios.get(`${URL}/products/${productId}`);
     // console.log("Products:", response.data);
     return response.data;
   } catch (error) {
@@ -47,6 +47,24 @@ async function updateProduct(productData, productId) {
         headers: {
           Authorization: adminToken,
           "Content-Type": "multipart/form-data",
+        },
+      },
+    );
+    console.log("New product added:", response.data);
+  } catch (error) {
+    console.error("Error adding product:", error.response.data.message);
+  }
+}
+
+async function updateFeaturedProduct(featuredProducts) {
+  const adminToken = getCookie("jwt_admin");
+  try {
+    const response = await axios.put(
+      `${URL}/products/featured/update`,
+      featuredProducts,
+      {
+        headers: {
+          Authorization: adminToken,
         },
       },
     );
@@ -95,4 +113,5 @@ export {
   getCategories,
   addCategory,
   updateProduct,
+  updateFeaturedProduct,
 };

@@ -10,7 +10,6 @@ import AddProductsPage from "./admin/view/add_products";
 import useAdminStore from "./admin/store/useAdminStore";
 import AdminRegisteringPage from "./admin/view/admin_registring_page";
 import InvintoryPage from "./admin/view/invintory_page";
-import InvoiceAndBilling from "./admin/view/invoice_and_billing_page";
 import OrdersPage from "./admin/view/orders_page";
 import AdminLayout from "./global/layouts/admin_page_layout";
 import Layout from "./global/layouts/pages_layout";
@@ -39,10 +38,7 @@ const AppRouter = () => {
         <Route path="/admin/add-products" element={<AddProductsPage />} />
         <Route path="/admin/edit/:productId" element={<AddProductsPage />} />
         <Route path="/admin/inventory" element={<InvintoryPage />} />
-        <Route
-          path="/admin/invoice-and-billing"
-          element={<InvoiceAndBilling />}
-        />
+        
         <Route path="/admin/orders" element={<OrdersPage />} />
       </Route>
     </Routes>

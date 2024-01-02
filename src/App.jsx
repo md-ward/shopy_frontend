@@ -80,14 +80,14 @@ function App() {
           "Edit product details and make changes to ensure accurate information and improve customer experience.",
       };
     } else if (
-      pathname.startsWith("/shop/") &&
+      pathname.startsWith("/shop") &&
       pathname.match(/\/shop\/[a-z]*[0-9]*/i)
     ) {
       // Extract the product ID from the pathname
       const productId = pathname.split("/")[2];
 
       return {
-        title:  'Product details : '+productId,
+        title: "Product details : " + productId,
         description:
           "showing product with other useres comments and image gallery...",
       };
