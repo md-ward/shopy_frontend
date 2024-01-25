@@ -234,9 +234,8 @@ const Navbar = () => {
 
       {/* Arrow Icon */}
       <div
-        className={` flex items-center justify-center sm:hidden ${
-          expand ? "rotate-180" : "rotate-0"
-        } transition-all duration-150 ease-in-out`}
+        className={` flex items-center justify-center sm:hidden ${expand ? "rotate-180" : "rotate-0"
+          } transition-all duration-150 ease-in-out`}
         onClick={() => {
           setExpand(!expand);
           playAnimation();

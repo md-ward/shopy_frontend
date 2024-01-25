@@ -3,7 +3,13 @@ import useRegistering from "../store/useRegisteringStore";
 import gsap from "gsap";
 
 const SignupForm = () => {
-  const { error, handleSignupSubmit, toggleForm } = useRegistering();
+  const { error, handleSignupSubmit, toggleForm } = useRegistering((state) => ({
+    error: state.error,
+    handleSignupSubmit: state.handleSignupSubmit,
+    toggleForm: state.toggleForm
+
+
+  }));
   const signupRef = useRef(null);
 
   function handleTransintonTo() {

@@ -3,7 +3,13 @@ import useRegistering from "../store/useRegisteringStore";
 import gsap from "gsap";
 
 const LoginForm = () => {
-  const { error, handleLoginSubmit, toggleForm } = useRegistering();
+  const { error, handleLoginSubmit, toggleForm } = useRegistering((state) => ({
+    error: state.error,
+    handleLoginSubmit: state.handleLoginSubmit,
+    toggleForm: state.toggleForm
+
+
+  }));
 
   const handleSubmit = (event) => {
     event.preventDefault();

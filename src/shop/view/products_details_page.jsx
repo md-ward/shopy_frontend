@@ -53,7 +53,7 @@ const ProductDetail = () => {
           </div>
         </>
       )}
-      <div className="mx-auto max-w-7xl rounded-lg border border-gray-300 px-4 py-8 shadow-md">
+      <div className="mx-auto max-w-7xl rounded-lg border border-gray-300 px-4      py-8 shadow-md">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div>
             <h1 className="mb-4 text-3xl font-bold text-indigo-900">
