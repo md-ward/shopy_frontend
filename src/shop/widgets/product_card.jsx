@@ -34,7 +34,7 @@ const ProductCard = ({ product }) => {
 
       <div className="mt-4 flex flex-col">
         <span className="inline-flex justify-between">
-          <p className="text-blue-gray-900 mb-2 text-lg font-medium">
+          <p className="text-blue-gray-900 mb-2  line-clamp-2 text-lg font-medium">
             {product.product_name}
           </p>
           <p className="text-blue-gray-900 text-lg font-medium">

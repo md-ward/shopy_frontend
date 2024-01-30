@@ -42,7 +42,7 @@ const FeaturedProducts = () => {
                   className="mb-4 h-32 w-full object-contain"
                 />
                 <span className="flex flex-col items-center justify-center">
-                  <h3 className="text-base font-medium">
+                  <h3 className="text-base font-medium line-clamp-1">
                     {product.product_name}
                   </h3>
                   <p className="text-indigo-500">{product.price} $</p>

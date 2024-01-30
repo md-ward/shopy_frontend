@@ -144,7 +144,7 @@ const Navbar = () => {
         }}
         className="  hidden cursor-pointer select-none items-center pl-8 font-[AttackGraf] md:flex  md:w-1/3"
       >
-        <h1 className="text-3xl font-bold text-white">Shopy</h1>
+        <h1 className="text-3xl font-bold text-white">Yas Shop</h1>
       </div>
 
       {/* Navigation Items */}

@@ -5,6 +5,8 @@ import CheckoutForm from "./checkoutPage";
 import { useEffect, useState } from "react";
 import useRegistering from "../../user_registering/store/useRegisteringStore";
 import useOrderStore from "../../shop/store/useOrderStore";
+import { useNavigate } from "react-router-dom";
+import { faEye } from "@fortawesome/free-regular-svg-icons";
 
 const CartPage = () => {
   const {
@@ -19,6 +21,11 @@ const CartPage = () => {
   const { toggleDialog, isLogedIn } = useRegistering();
   //! toggle between cart summery and checkout ..
   const [checkout, setCheckout] = useState(false);
+
+  const navigate = useNavigate();
+  function handleNavToProductPage(productId) {
+    navigate(`/shop/${productId}`);
+  }
 
   function handleCheckout() {
     if (isLogedIn) {
@@ -56,13 +63,20 @@ const CartPage = () => {
               key={index}
               className="rounded-lg border bg-white p-4 shadow-md"
             >
+              <FontAwesomeIcon
+                icon={faEye}
+                className="cursor-pointer"
+                onClick={() => handleNavToProductPage(item.productId)}
+              />
               <img
                 src={item.thumbnail}
                 alt={item.name}
                 className="mb-4 h-36 w-full object-contain"
               />
               <div className="mb-2 flex items-center justify-between">
-                <span className="text-lg font-semibold">{item.name}</span>
+                <span className="line-clamp-2 text-lg font-semibold">
+                  {item.name}
+                </span>
                 <span className="text-lg font-semibold">${item.price}</span>
               </div>
               <div className="flex  items-center justify-between">
